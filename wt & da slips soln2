@@ -1,0 +1,1172 @@
+@Slip-16
+Q. 1) Write Ajax program to get book details from XML file when user select a book name. Create XML
+File for storing details of book(title, author, year, price).
+Ans:
+Xml file book_details.xml
+<books>
+<book>
+<title>The Great Gatsby</title>
+<author>F. Scott Fitzgerald</author>
+<year>1925</year>
+<price>10.99</price>
+</book>
+<book>
+<title>To Kill a Mockingbird</title>
+<author>Harper Lee</author>
+<year>1960</year>
+<price>8.99</price>
+</book>
+<book>
+<title>1984</title>
+<author>George Orwell</author>
+<year>1949</year>
+<price>6.99</price>
+</book>
+<book>
+<title>Pride and Prejudice</title>
+<author>Jane Austen</author>
+<year>1813</year>
+<price>7.99</price>
+</book>
+</books>
+Ajax file
+<!DOCTYPE html>
+<html>
+<head>
+<title>Book Details</title>
+<script src=https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js></script>
+<script>
+$(document).ready(function(){
+$(“select”).change(function(){
+Var book = $(this).val();
+$.ajax({
+url: “book_details.xml”,
+dataType: “xml”,
+success: function(xml){
+$(xml).find(‘book’).each(function(){
+Var title = $(this).find(‘title’).text();
+If (title == book) {
+Var author = $(this).find(‘author’).text();
+Var year = $(this).find(‘year’).text();
+Var price = $(this).find(‘price’).text();
+$(“#details”).html(“Author: “ + author +
+“<br>Year: “ + year + “<br>Price: “ + price);
+}
+});
+}
+});
+});
+});
+</script>
+</head>
+<body>
+<select>
+<option>Select a book</option>
+<option>The Great Gatsby</option>
+<option>To Kill a Mockingbird</option>
+<option>1984</option>
+<option>Pride and Prejudice</option>
+</select>
+<div id=”details”></div>
+</body>
+</html>
+Q2).Consider any text paragraph. Preprocess the text to remove any special characters and digits.
+Generate the summary using extractive summarization pprocess.
+Ans:
+Import re
+Import nltk
+From nltk.corpus import stopwords
+From nltk.tokenize import sent_tokenize, word_tokenize
+From heapq import nlargest
+# Sample text paragraph you can write any text
+Text = “Natural language processing (NLP) is a subfield of linguistics, computer science, information
+engineering, and artificial intelligence concerned with the interactions between computers and human
+languages, in particular how to program computers to process and analyze large amounts of natural
+language data. Challenges in natural language processing frequently involve speech recognition, natural
+language understanding, and natural language generation. The history of natural language processing
+generally started in the 1950s, although work can be found from earlier periods.”
+# Remove special characters and digits
+Text = re.sub(‘[^a-zA-Z]’, ‘ ‘, text)
+# Tokenize the text into sentences
+Sentences = sent_tokenize(text)
+# Tokenize each sentence into words and remove stop words
+Stop_words = set(stopwords.words(‘english’))
+Words = []
+For sentence in sentences:
+ Words.extend(word_tokenize(sentence))
+Words = [word.lower() for word in words if word.lower() not in stop_words]
+# Calculate word frequency
+Word_freq = nltk.FreqDist(words)
+# Calculate sentence scores based on word frequency
+Sentence_scores = {}
+For sentence in sentences:
+ For word in word_tokenize(sentence.lower()):
+ If word in word_freq:
+ If len(sentence.split(‘ ‘)) < 30:
+ If sentence not in sentence_scores:
+ Sentence_scores[sentence] = word_freq[word]
+ Else:
+ Sentence_scores[sentence] += word_freq[word]
+# Generate summary by selecting top 3 sentences with highest scores
+Summary_sentences = nlargest(3, sentence_scores, key=sentence_scores.get)
+Summary = ‘ ‘.join(summary_sentences)
+Print(summary)
+@Slip-17
+Q. 1) Write a Java Script Program to show Hello Good Morning message onload event using alert box
+And display the Student registration from.
+Ans:
+<!DOCTYPE html>
+<html>
+<head>
+<title>Student Registration Form</title>
+<script>
+Window.onload = function() {
+Alert(“Hello Good Morning!”);
+};
+</script>
+</head>
+<body>
+<h1>Student Registration Form</h1>
+<form>
+<label for=”name”>Name:</label>
+<input type=”text” id=”name” name=”name” required><br><br>
+<label for=”email”>Email:</label>
+<input type=”email” id=”email” name=”email” required><br><br>
+<label for=”phone”>Phone:</label>
+<input type=”tel” id=”phone” name=”phone” required><br><br>
+<label for=”address”>Address:</label>
+<textarea id=”address” name=”address” required></textarea><br><br>
+<input type=”submit” value=”Submit”>
+</form>
+</body>
+</html>
+Q. 2)Consider text paragraph.So, keep working. Keep striving. Never give up. Fall down seven times, get
+Up eight. Ease is a greater threat to progress than hardship. Ease is a greater threat to progress than
+Hardship. So, keep moving, keep growing, keep learning. See you at work.Preprocess the text to remove
+Any special characters and digits. Generate the summary using extractive summarization process.
+Ans:
+Import re
+From nltk.tokenize import sent_tokenize
+# Text paragraph
+Text = “So, keep working. Keep striving. Never give up. Fall down seven times, get up eight. Ease is a
+greater threat to progress than hardship. Ease is a greater threat to progress than hardship. So, keep
+moving, keep growing, keep learning. See you at work.”
+# Remove special characters and digits
+Text = re.sub(‘[^A-Za-z]+’, ‘ ‘, text)
+# Tokenize the sentences
+Sentences = sent_tokenize(text)
+# Calculate the score of each sentence based on the number of words
+# The sentences with more words will have a higher score
+Scores = {}
+For sentence in sentences:
+ Words = sentence.split()
+ Score = len(words)
+ Scores[sentence] = score
+# Sort the sentences based on their scores
+Sorted_sentences = sorted(scores.items(), key=lambda x: x[1], reverse=True)
+# Extract the top 2 sentences with the highest scores as the summary
+Summary_sentences = [sentence[0] for sentence in sorted_sentences[:2]]
+Summary = “ “.join(summary_sentences)
+# Print the summary
+Print(summary)
+@Slip-18
+Q. 1) Write a Java Script Program to print Fibonacci numbers on onclick event.
+Ans:
+<!DOCTYPE html>
+<html>
+<head>
+<title>Fibonacci Numbers</title>
+<script>
+Function generateFibonacci() {
+// Get the input value from the user
+Var input = document.getElementById(“inputNumber”).value;
+Var output = document.getElementById(“output”);
+// Convert the input to a number
+Var n = parseInt(input);
+// Create an array to store the Fibonacci sequence
+Var fib = [];
+// Calculate the Fibonacci sequence up to n
+Fib[0] = 0;
+Fib[1] = 1;
+For (var i = 2; i <= n; i++) {
+Fib[i] = fib[i-1] + fib[i-2];
+}
+// Display the Fibonacci sequence
+Output.innerHTML = “Fibonacci sequence up to “ + n + “: “ + fib.join(“, “);
+}
+</script>
+</head>
+<body>
+<h1>Fibonacci Numbers</h1>
+<p>Enter a number:</p>
+<input type=”text” id=”inputNumber”>
+<button onclick=”generateFibonacci()”>Generate Fibonacci</button>
+<p id=”output”></p>
+</body>
+</html>
+Q. 2)Consider any text paragraph. Remove the stopwords. Tokenize the paragraph to extract words and
+Sentences. Calculate the word frequency distribution and plot the frequencies. Plot the wordcloud of
+the
+Txt.
+Ans:
+# Install the libraries
+!pip install nltk matplotlib wordcloud
+# Import the necessary modules
+Import nltk
+From nltk.corpus import stopwords
+From nltk.tokenize import word_tokenize, sent_tokenize
+From nltk.probability import FreqDist
+Import matplotlib.pyplot as plt
+From wordcloud import WordCloud
+# Download the stopwords corpus
+Nltk.download(‘stopwords’)
+# Define the text paragraph
+Text = “Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tristique ante et velit vestibulum, vel
+pharetra orci iaculis. Nullam mattis risus quis augue tincidunt rhoncus. Morbi varius, arcu vitae
+scelerisque laoreet, magna est imperdiet quam, sit amet ultrices lectus justo id enim. Sed dictum suscipit
+commodo. Sed maximus consequat risus, nec pharetra nibh interdum quis. Etiam eget quam vel augue
+dictum dignissim sit amet nec elit. Nunc at sapien dolor. Nulla vitae iaculis lorem. Suspendisse potenti.
+Sed non ante turpis. Morbi consectetur, arcu a vestibulum suscipit, mauris eros convallis nibh, nec
+feugiat orci enim sit amet enim. Aliquam erat volutpat. Etiam vel nisi id neque viverra dapibus non non
+lectus.”
+# Tokenize the paragraph to extract words and sentences
+Words = word_tokenize(text.lower())
+Sentences = sent_tokenize(text)
+# Remove the stopwords from the extracted words
+Stop_words = set(stopwords.words(‘english’))
+Filtered_words = [word for word in words if word.casefold() not in stop_words]
+# Calculate the word frequency distribution and plot the frequencies using matplotlib
+Fdist = FreqDist(filtered_words)
+Fdist.plot(30, cumulative=False)
+Plt.show()
+# Plot the wordcloud of the text using wordcloud
+Wordcloud = WordCloud(width = 800, height = 800,
+ Background_color =’white’,
+ Stopwords = stop_words,
+ Min_font_size = 10).generate(text)
+
+# plot the WordCloud image
+Plt.figure(figsize = (8, 8), facecolor = None)
+Plt.imshow(wordcloud)
+Plt.axis(“off”)
+Plt.tight_layout(pad = 0)
+
+Plt.show()
+@Slip-19
+Q. 1) Write a Java Script Program to validate user name and password on onSubmit event.
+Ans:
+<!DOCTYPE html>
+<html>
+ <head>
+ <title>Validate User Name and Password</title>
+ <script>
+ Function validateForm() {
+ Var username = document.forms[“myForm”][“username”].value;
+ Var password = document.forms[“myForm”][“password”].value;
+ If (username == “”) {
+ Alert(“Username must be filled out”);
+ Return false;
+ }
+ If (password == “”) {
+ Alert(“Password must be filled out”);
+ Return false;
+ }
+ }
+ </script>
+ </head>
+ <body>
+ <h2>Validate User Name and Password</h2>
+ <form name=”myForm” onsubmit=”return validateForm()” method=”post”>
+ <label for=”username”>Username:</label>
+ <input type=”text” id=”username” name=”username”><br><br>
+ <label for=”password”>Password:</label>
+ <input type=”password” id=”password” name=”password”><br><br>
+ <input type=”submit” value=”Submit”>
+ </form>
+ </body>
+</html>
+Q. 2)Download the movie_review.csv dataset from Kaggle by using the following link
+:https://www.kaggle.com/nltkdata/movie-review/version/3?select=movie_review.csv to perform
+Sentiment analysis on above dataset and create a wordcloud.
+Ans:
+Import pandas as pd
+From textblob import TextBlob
+From wordcloud import WordCloud, STOPWORDS
+Import matplotlib.pyplot as plt
+# Load the dataset
+Df = pd.read_csv(‘movie_review.csv’)
+# Add a column for sentiment analysis using TextBlob
+Df[‘Sentiment’] = df[‘Review’].apply(lambda x: TextBlob(x).sentiment.polarity)
+# Create a new dataframe for positive reviews only
+Pos_df = df[df[‘Sentiment’] > 0.2]
+# Create a wordcloud for positive reviews
+Wordcloud = WordCloud(width = 800, height = 800,
+ Background_color =’white’,
+ Stopwords = STOPWORDS,
+ Min_font_size = 10).generate(‘ ‘.join(pos_df[‘Review’]))
+# Plot the wordcloud
+Plt.figure(figsize = (8, 8), facecolor = None)
+Plt.imshow(wordcloud)
+Plt.axis(“off”)
+Plt.tight_layout(pad = 0)
+
+Plt.show()
+@Slip-20
+Q. 1) create a student.xml file containing at least 5 student information.
+Ans:
+<?xml version=”1.0”?>
+<students>
+ <student>
+ <name>John Doe</name>
+ <age>21</age>
+ <gender>Male</gender>
+ <major>Computer Science</major>
+ <gpa>3.8</gpa>
+ </student>
+ <student>
+ <name>Jane Smith</name>
+ <age>19</age>
+ <gender>Female</gender>
+ <major>Business</major>
+ <gpa>3.5</gpa>
+ </student>
+ <student>
+ <name>Tom Johnson</name>
+ <age>20</age>
+ <gender>Male</gender>
+ <major>Engineering</major>
+ <gpa>3.2</gpa>
+ </student>
+ <student>
+ <name>Sara Lee</name>
+ <age>22</age>
+ <gender>Female</gender>
+ <major>Psychology</major>
+ <gpa>3.6</gpa>
+ </student>
+ <student>
+ <name>Mike Brown</name>
+ <age>18</age>
+ <gender>Male</gender>
+ <major>Education</major>
+ <gpa>3.4</gpa>
+ </student>
+</students>
+Q. 2)Consider text paragraph.”””Hello all, Welcome to Python Programming Academy. Python
+Programming Academy is a nice platform to learn new programming skills. It is difficult to get enrolled
+In this Academy.”””Remove the stopwords.
+Ans:
+Import nltk
+From nltk.corpus import stopwords
+Nltk.download(‘stopwords’)
+# Text paragraph
+Text = “Hello all, Welcome to Python Programming Academy. Python Programming Academy is a nice
+platform to learn new programming skills. It is difficult to get enrolled in this Academy.”
+# Tokenize the text
+Tokens = nltk.word_tokenize(text)
+# Remove stopwords
+Stop_words = set(stopwords.words(‘english’))
+Filtered_tokens = [word for word in tokens if not word.lower() in stop_words]
+# Print the filtered tokens
+Print(filtered_tokens)
+@Slip-21
+Q. 1)Add a JavaScript File in Codeigniter. The Javascript code should check whether a number is
+Positive or negative.
+Ans:
+Html file
+<!DOCTYPE html>
+<html>
+ <head>
+ <title>Number Check</title>
+ <script src=”<?php echo base_url(‘js/numberCheck.js’); ?>”></script>
+ </head>
+ <body>
+ <h1>Number Check</h1>
+ <p>Enter a number to check:</p>
+ <input type=”number” id=”num” />
+ <button onclick=”checkNumber(document.getElementById(‘num’).value)”>Check</button>
+ </body>
+</html>
+Create is file check number.js
+Function checkNumber(num) {
+ If (num > 0) {
+ Alert(“The number is positive.”);
+ } else if (num < 0) {
+ Alert(“The number is negative.”);
+ } else {
+ Alert(“The number is zero.”);
+ }
+}
+Q. 2)Build a simple linear regression model for User Data.
+Ans:
+Import pandas as pd
+From sklearn.model_selection import train_test_split
+From sklearn.linear_model import LinearRegression
+From sklearn.metrics import mean_squared_error, r2_score
+Import matplotlib.pyplot as plt
+# 1. Collect data
+Data = pd.read_csv(‘user_data.csv’)
+# 2. Preprocess data
+Data.dropna(inplace=True)
+X = data[‘age’].values.reshape(-1, 1)
+Y = data[‘income’].values.reshape(-1, 1)
+# 3. Split data
+X_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=0)
+# 4. Train the model
+Regressor = LinearRegression()
+Regressor.fit(x_train, y_train)
+# 5. Predict values
+Y_pred = regressor.predict(x_test)
+# 6. Evaluate model
+Mse = mean_squared_error(y_test, y_pred)
+R2 = r2_score(y_test, y_pred)
+Print(“Mean squared error: “, mse)
+Print(“R-squared: “, r2)
+# 7. Visualize results
+Plt.scatter(x_test, y_test, color=’gray’)
+Plt.plot(x_test, y_pred, color=’red’, linewidth=2)
+Plt.show()
+@Slip-22
+Q. 1)Create a table student having attributes(rollno, name, class). Using codeigniter, connect to the
+Database and insert 5 recodes in it.
+Ans:
+<?php
+// Establish connection to PostgreSQL database
+$conn = pg_connect(“host=localhost dbname=your_database_name user=your_username
+password=your_password”);
+// Check if connection was successful
+If (!$conn) {
+ Echo “Connection failed.”;
+ Exit;
+}
+// Create student table
+$query = “CREATE TABLE student (
+ Rollno INTEGER PRIMARY KEY,
+ Name VARCHAR(50) NOT NULL,
+ Class VARCHAR(10) NOT NULL
+ )”;
+$result = pg_query($conn, $query);
+If (!$result) {
+ Echo “Error creating table: “ . pg_last_error($conn);
+ Exit;
+} else {
+ Echo “Table created successfully.<br>”;
+}
+// Insert 5 records into student table
+$insert_query = “INSERT INTO student (rollno, name, class)
+ VALUES (1, ‘John Doe’, ‘10A’),
+ (2, ‘Jane Smith’, ‘9B’),
+ (3, ‘Bob Johnson’, ‘11C’),
+ (4, ‘Sarah Lee’, ‘12D’),
+ (5, ‘Tom Brown’, ‘8E’)”;
+$insert_result = pg_query($conn, $insert_query);
+If (!$insert_result) {
+ Echo “Error inserting records: “ . pg_last_error($conn);
+ Exit;
+} else {
+ Echo “Records inserted successfully.”;
+}
+// Close database connection
+Pg_close($conn);
+?>
+Q2).Consider any text paragraph. Remove the stopwords.
+Ans:
+Import nltk
+From nltk.corpus import stopwords
+From nltk.tokenize import word_tokenize
+# sample text paragraph
+Text = “Hello all, Welcome to Python Programming Academy. Python Programming Academy is a nice
+platform to learn new programming skills. It is difficult to get enrolled in this Academy.”
+# tokenize the text paragraph
+Words = word_tokenize(text)
+# define stopwords
+Stop_words = set(stopwords.words(‘english’))
+# remove stopwords
+Filtered_words = [word for word in words if word.casefold() not in stop_words]
+# join filtered words to form a sentence
+Filtered_sentence = ‘ ‘.join(filtered_words)
+Print(filtered_sentence)
+@Slip-23
+Q. 1) Create a table student having attributes(rollno, name, class) containing atleast 5 recodes . Using
+Codeigniter, display all its records.
+Ans:
+<?php
+// Establish connection to PostgreSQL database
+$conn = pg_connect(“host=localhost dbname=your_database_name user=your_username
+password=your_password”);
+// Check if connection was successful
+If (!$conn) {
+ Echo “Connection failed.”;
+ Exit;
+}
+// Create student table
+$query = “CREATE TABLE student (
+ Rollno INTEGER PRIMARY KEY,
+ Name VARCHAR(50) NOT NULL,
+ Class VARCHAR(10) NOT NULL
+ )”;
+$result = pg_query($conn, $query);
+If (!$result) {
+ Echo “Error creating table: “ . pg_last_error($conn);
+ Exit;
+} else {
+ Echo “Table created successfully.<br>”;
+}
+// Insert 5 records into student table
+$insert_query = “INSERT INTO student (rollno, name, class)
+ VALUES (1, ‘John Doe’, ‘10A’),
+ (2, ‘Jane Smith’, ‘9B’),
+ (3, ‘Bob Johnson’, ‘11C’),
+ (4, ‘Sarah Lee’, ‘12D’),
+ (5, ‘Tom Brown’, ‘8E’)”;
+$insert_result = pg_query($conn, $insert_query);
+If (!$insert_result) {
+ Echo “Error inserting records: “ . pg_last_error($conn);
+ Exit;
+} else {
+ Echo “Records inserted successfully.”;
+}
+// Close database connection
+Pg_close($conn);
+// function to display database records
+Function display_records($table_name) {
+ // establish connection to PostgreSQL database
+ $conn = pg_connect(“host=localhost dbname=your_database_name user=your_username
+password=your_password”);
+ // check if connection was successful
+ If (!$conn) {
+ Echo “Connection failed.”;
+ Exit;
+ }
+ // retrieve records from specified table
+ $query = “SELECT * FROM “ . $table_name;
+ $result = pg_query($conn, $query);
+ // check if query was successful
+ If (!$result) {
+ Echo “Error retrieving records: “ . pg_last_error($conn);
+ Exit;
+ }
+ // display records in an HTML table
+ Echo “<table>”;
+ Echo “<tr><th>Roll No</th><th>Name</th><th>Class</th></tr>”;
+ While ($row = pg_fetch_assoc($result)) {
+ Echo “<tr><td>” . $row[‘rollno’] . “</td><td>” . $row[‘name’] . “</td><td>” . $row[‘class’] .
+“</td></tr>”;
+ }
+ Echo “</table>”;
+ // close database connection
+ Pg_close($conn);
+}
+?>
+Q2).Consider any text paragraph. Preprocess the text to remove any special characters and
+Digits.
+Ans:
+Import re
+Text = “Hello, #world123! This is a sample text paragraph. It contains special characters and 5 digits.”
+# Remove special characters and digits
+Processed_text = re.sub(r’[^a-zA-Z\s]’, ‘’, text)
+Print(processed_text)
+@Slip-24
+Q. 1) Write a PHP script to create student.xml file which contains student roll no, name, address, college
+And course. Print students detail of specific course in tabular format after accepting course as input.
+Ans:
+<?php
+// Define student details
+$students = array(
+ Array(“rollno” => 1, “name” => “John Doe”, “address” => “123 Main St”, “college” => “ABC College”,
+“course” => “Computer Science”),
+ Array(“rollno” => 2, “name” => “Jane Smith”, “address” => “456 Main St”, “college” => “DEF College”,
+“course” => “Information Technology”),
+ Array(“rollno” => 3, “name” => “Bob Johnson”, “address” => “789 Main St”, “college” => “GHI
+College”, “course” => “Business Administration”),
+ Array(“rollno” => 4, “name” => “Sarah Lee”, “address” => “101 Main St”, “college” => “JKL College”,
+“course” => “Marketing”),
+ Array(“rollno” => 5, “name” => “Tom Brown”, “address” => “121 Main St”, “college” => “MNO
+College”, “course” => “Computer Science”)
+);
+// Create a SimpleXMLElement object
+$xml = new SimpleXMLElement(‘<students></students>’);
+// Add student elements to the XML object
+Foreach ($students as $student) {
+ $student_element = $xml->addChild(‘student’);
+ $student_element->addChild(‘rollno’, $student[‘rollno’]);
+ $student_element->addChild(‘name’, $student[‘name’]);
+ $student_element->addChild(‘address’, $student[‘address’]);
+ $student_element->addChild(‘college’, $student[‘college’]);
+ $student_element->addChild(‘course’, $student[‘course’]);
+}
+// Save the XML data to a file
+$xml->asXML(‘student.xml’);
+// Get course input from user
+$course = isset($_POST[‘course’]) ? $_POST[‘course’] : ‘’;
+// Load the XML file
+$xml = simplexml_load_file(‘student.xml’);
+// Find students with matching course
+$filtered_students = $xml->xpath(“//student[course=’$course’]”);
+// Print table of matching students
+Echo “<table border=’1’>”;
+Echo “<tr><th>Roll No</th><th>Name</th><th>Address</th><th>College</th><th>Course</th></tr>”;
+Foreach ($filtered_students as $student) {
+ Echo “<tr>”;
+ Echo “<td>{$student->rollno}</td>”;
+ Echo “<td>{$student->name}</td>”;
+ Echo “<td>{$student->address}</td>”;
+ Echo “<td>{$student->college}</td>”;
+ Echo “<td>{$student->course}</td>”;
+ Echo “</tr>”;
+}
+Echo “</table>”;
+?>
+Q. 2) Consider the following dataset : https://www.kaggle.com/datasets/datasnaek/youtubenew?
+select=INvideos.csv
+Write a Python script for the following :
+i.
+Read the dataset and perform data cleaning operations on it.
+ii.
+ii. Find the total views, total likes, total dislikes and comment count.
+Ans:
+Import pandas as pd
+# Read the dataset
+Df = pd.read_csv(‘INvideos.csv’)
+# Drop the columns that are not required
+Df = df.drop([‘video_id’, ‘trending_date’, ‘channel_title’, ‘category_id’, ‘publish_time’, ‘tags’,
+‘thumbnail_link’, ‘comments_disabled’, ‘ratings_disabled’, ‘video_error_or_removed’], axis=1)
+# Convert the datatype of ‘views’, ‘likes’, ‘dislikes’, and ‘comment_count’ to integer
+Df[[‘views’, ‘likes’, ‘dislikes’, ‘comment_count’]] = df[[‘views’, ‘likes’, ‘dislikes’,
+‘comment_count’]].astype(int)
+# Find the total views, likes, dislikes, and comment count
+Total_views = df[‘views’].sum()
+Total_likes = df[‘likes’].sum()
+Total_dislikes = df[‘dislikes’].sum()
+Total_comments = df[‘comment_count’].sum()
+Print(‘Total Views:’, total_views)
+Print(‘Total Likes:’, total_likes)
+Print(‘Total Dislikes:’, total_dislikes)
+Print(‘Total Comments:’, total_comments)
+@Slip-25
+Q. 1) Write a script to create “cricket.xml” file with multiple elements as shown below:
+<CricketTeam>
+<Team country=”Australia”>
+<player>____</player>
+<runs>______</runs>
+<wicket>____</wicket>
+</Team>
+</CricketTeam>
+Write a script to add multiple elements in “cricket.xml” file of category, country=”India”.
+Ans:
+<?php
+// Create a new DOM document
+$doc = new DOMDocument();
+// Create the root element
+$cricketTeam = $doc->createElement(“CricketTeam”);
+// Create the first team element for Australia
+$teamAustralia = $doc->createElement(“Team”);
+$teamAustralia->setAttribute(“country”, “Australia”);
+// Create the player element and set its value
+$player1 = $doc->createElement(“player”, “Steve Smith”);
+$teamAustralia->appendChild($player1);
+// Create the runs element and set its value
+$runs1 = $doc->createElement(“runs”, “7090”);
+$teamAustralia->appendChild($runs1);
+// Create the wicket element and set its value
+$wicket1 = $doc->createElement(“wicket”, “17”);
+$teamAustralia->appendChild($wicket1);
+// Append the team element to the root element
+$cricketTeam->appendChild($teamAustralia);
+// Create the second team element for India
+$teamIndia = $doc->createElement(“Team”);
+$teamIndia->setAttribute(“country”, “India”);
+// Create the player element and set its value
+$player2 = $doc->createElement(“player”, “Virat Kohli”);
+$teamIndia->appendChild($player2);
+// Create the runs element and set its value
+$runs2 = $doc->createElement(“runs”, “12169”);
+$teamIndia->appendChild($runs2);
+// Create the wicket element and set its value
+$wicket2 = $doc->createElement(“wicket”, “4”);
+$teamIndia->appendChild($wicket2);
+// Create the category element and set its value
+$category = $doc->createElement(“category”, “Captain”);
+$teamIndia->appendChild($category);
+// Append the team element to the root element
+$cricketTeam->appendChild($teamIndia);
+// Append the root element to the document
+$doc->appendChild($cricketTeam);
+// Save the XML file
+$doc->save(“cricket.xml”);
+Echo “Elements added successfully!”;
+?>
+Q. 2) Consider the following dataset : https://www.kaggle.com/datasets/seungguini/youtubecommentsfor-covid19-relatedvideos?select=covid_2021_1.csv
+Write a Python script for the following :
+i.
+Read the dataset and perform data cleaning operations on it.
+ii.
+ii. Tokenize the comments in words. Iii. Perform sentiment analysis and find the percentage of
+positive, negative and neutral comments..
+Ans:
+Import pandas as pd
+Import nltk
+From nltk.sentiment.vader import SentimentIntensityAnalyzer
+# read the dataset
+Df = pd.read_csv(‘covid_2021_1.csv’)
+# remove null values and duplicates
+Df.dropna(inplace=True)
+Df.drop_duplicates(subset=’Comment’, inplace=True)
+# tokenize comments in words
+Nltk.download(‘punkt’)
+Df[‘tokens’] = df[‘Comment’].apply(nltk.word_tokenize)
+# perform sentiment analysis
+Nltk.download(‘vader_lexicon’)
+Sia = SentimentIntensityAnalyzer()
+Df[‘sentiment’] = df[‘Comment’].apply(lambda x: sia.polarity_scores(x)[‘compound’])
+# calculate percentage of positive, negative, and neutral comments
+Total_comments = len(df)
+Positive_comments = len(df[df[‘sentiment’] > 0])
+Negative_comments = len(df[df[‘sentiment’] < 0])
+Neutral_comments = len(df[df[‘sentiment’] == 0])
+Positive_percentage = (positive_comments / total_comments) * 100
+Negative_percentage = (negative_comments / total_comments) * 100
+Neutral_percentage = (neutral_comments / total_comments) * 100
+# print the results
+Print(‘Total Comments:’, total_comments)
+Print(‘Positive Comments:’, positive_comments, ‘(‘, positive_percentage, ‘%)’)
+Print(‘Negative Comments:’, negative_comments, ‘(‘, negative_percentage, ‘%)’)
+Print(‘Neutral Comments:’, neutral_comments, ‘(‘, neutral_percentage, ‘%)’)
+@Slip-26
+Q. 1) Create employee table as follows EMP (eno, ename, designation, salary). Write Ajax program to
+Select the employees name and print the selected employee’s details.
+Ans:
+Html file
+<select id=”employee-list”>
+ <option value=””>Select an employee</option>
+ <!—Populate this dropdown with employee names using PHP 
+</select>
+<div id=”employee-details”>
+ <!—Employee details will be displayed here 
+</div>
+Ajax file
+$(document).ready(function() {
+ // Add event listener to the select dropdown
+ $(‘#employee-list’).change(function() {
+ Var selectedEmployee = $(this).val();
+ // Make an AJAX request to fetch employee details
+ $.ajax({
+ url: ‘empdetails.php’,
+ type: ‘POST’,
+ data: { employeeName: selectedEmployee },
+ dataType: ‘json’,
+ success: function(response) {
+ // Parse the JSON response and display employee details
+ Var detailsHtml = ‘Employee Name: ‘ + response.ename + ‘<br>’ +
+ ‘Designation: ‘ + response.designation + ‘<br>’ +
+ ‘Salary: ‘ + response.salary;
+ $(‘#employee-details’).html(detailsHtml);
+ },
+ Error: function(xhr, status, error) {
+ Console.log(‘Error:’, error);
+ }
+ });
+ });
+});
+Php file as empdetails.php
+<?php
+// Establish database connection
+$conn = pg_connect(“host=localhost dbname=database_name user=username password=password”);
+If (!$conn) {
+ Die(‘Connection failed: ‘ . pg_last_error());
+}
+// Get the selected employee name from AJAX request
+$employeeName = $_POST[‘employeeName’];
+// Query the EMP table for the details of the selected employee
+$sql = “SELECT * FROM EMP WHERE ename = ‘$employeeName’”;
+$result = pg_query($conn, $sql);
+If (pg_num_rows($result) > 0) {
+ // Build a JSON object with employee details
+ $employee = pg_fetch_assoc($result);
+ $response = array(
+ ‘ename’ => $employee[‘ename’],
+ ‘designation’ => $employee[‘designation’],
+ ‘salary’ => $employee[‘salary’]
+ );
+ Echo json_encode($response);
+} else {
+ Echo “Employee not found”;
+}
+// Close database connection
+Pg_close($conn);
+?>
+Q. 2 )Consider text paragraph. “””Hello all, Welcome to Python Programming Academy. Python
+Programming Academy is a nice platform to learn new programming skills. It is difficult to get enrolled
+In this Academy.””” Preprocess the text to remove any special characters and digits. Generate the
+Summary using extractive summarization process. Q.
+Ans:
+Import re
+From nltk.tokenize import sent_tokenize
+From sklearn.feature_extraction.text import TfidfVectorizer
+From sklearn.metrics.pairwise import cosine_similarity
+# Text to summarize
+Text = “Hello all, Welcome to Python Programming Academy. Python Programming Academy is a nice
+platform to learn new programming skills. It is difficult to get enrolled in this Academy.”
+# Preprocess the text to remove special characters and digits
+Preprocessed_text = re.sub(r’[^a-zA-Z\s]’, ‘’, text)
+# Tokenize the preprocessed text into sentences
+Sentences = sent_tokenize(preprocessed_text)
+# Calculate the importance score of each sentence using TF-IDF
+Vectorizer = TfidfVectorizer()
+Tfidf_matrix = vectorizer.fit_transform(sentences)
+Similarity_matrix = cosine_similarity(tfidf_matrix)
+# Select top N sentences based on their importance score
+N = 2
+Top_sentences = sorted(range(len(similarity_matrix[-1])), key=lambda i: similarity_matrix[-1][i])[-N:]
+# Concatenate the top sentences to form the summary
+Summary = ‘’
+For i in top_sentences:
+ Summary += sentences[i] + ‘ ‘
+Print(summary)
+@Slip-27
+Q. 1) Create web Application that contains Voters details and check proper validation for (name,
+Age, and nationality), as Name should be in upper case letters only, Age should not be less than
+18 yrs and Nationality should be Indian.(use HTML-AJAX-PHP).
+Ans :
+Html file
+<!DOCTYPE html>
+<html>
+<head>
+<title>Voter Details</title>
+<script src=https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js></script>
+</head>
+<body>
+<h2>Voter Details</h2>
+<form id=”voterForm”>
+<label for=”name”>Name:</label>
+<input type=”text” id=”name” name=”name” required><br><br>
+<label for=”age”>Age:</label>
+<input type=”number” id=”age” name=”age” required><br><br>
+<label for=”nationality”>Nationality:</label>
+<input type=”text” id=”nationality” name=”nationality” required><br><br>
+<input type=”submit” value=”Submit”>
+</form>
+<div id=”response”></div>
+<script>
+$(document).ready(function(){
+$(‘#voterForm’).submit(function(event){
+Event.preventDefault();
+Var name = $(‘#name’).val().toUpperCase();
+Var age = $(‘#age’).val();
+Var nationality = $(‘#nationality’).val();
+$.ajax({
+url: ‘voter.php’,
+method: ‘POST’,
+data: {name: name, age: age, nationality: nationality},
+success: function(response){
+$(‘#response’).html(response);
+}
+});
+});
+});
+</script>
+</body>
+</html>
+Voter.php file
+<?php
+$name = $_POST[‘name’];
+$age = $_POST[‘age’];
+$nationality = $_POST[‘nationality’];
+If(preg_match(‘/[^A-Z]/’, $name)){
+Echo ‘Name should be in upper case letters only.’;
+} elseif($age < 18) {
+Echo ‘Age should not be less than 18 years.’;
+} elseif(strcasecmp($nationality, ‘Indian’) != 0) {
+Echo ‘Nationality should be Indian.’;
+} else {
+Echo ‘Validation successful. Voter details: <br>Name: ‘.$name.’<br>Age: ‘.$age.’<br>Nationality:
+‘.$nationality;
+}
+?>
+Q. 2 ) Create your own transactions dataset and apply the above process on your dataset
+Ans:
+Import random
+Import csv
+# Generate random transaction data
+Transactions = []
+For i in range(1, 101):
+ Transaction_id = i
+ Transaction_date = f”2022-05-{random.randint(1, 31):02d}”
+ Customer_id = random.randint(1, 10)
+ Item_id = random.choice([“A”, “B”, “C”])
+ Item_price = round(random.uniform(10.0, 100.0), 2)
+ Quantity = random.randint(1, 10)
+ Transactions.append([transaction_id, transaction_date, customer_id, item_id, item_price, quantity])
+# Save the data to a CSV file
+With open(‘transactions.csv’, ‘w’, newline=’’) as csvfile:
+ Writer = csv.writer(csvfile)
+ Writer.writerow([“Transaction ID”, “Transaction Date”, “Customer ID”, “Item ID”, “Item Price”,
+“Quantity”])
+ For transaction in transactions:
+ Writer.writerow(transaction)
+Import pandas as pd
+# Read the CSV file into a Pandas DataFrame
+Df = pd.read_csv(‘transactions.csv’)
+# Convert the “Item Price” column to numeric type
+Df[‘Item Price’] = pd.to_numeric(df[‘Item Price’])
+# Calculate the sales amount for each transaction
+Df[‘Sales’] = df[‘Item Price’] * df[‘Quantity’]
+# Group the transactions by customer ID and calculate the total sales for each customer
+Total_sales = df.groupby(‘Customer ID’)[‘Sales’].sum().reset_index()
+# Print the results
+Print(total_sales)
+@Slip-28
+Q. 1) Write a PHP script using AJAX concept, to check user name and password are valid or Invalid (use
+Database to store user name and password).
+Ans:
+Html file
+<!DOCTYPE html>
+<html>
+<head>
+<title>Login</title>
+<script src=https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js></script>
+<script>
+$(document).ready(function(){
+$(“#login-form”).submit(function(event){
+Event.preventDefault();
+Var username = $(“#username”).val();
+Var password = $(“#password”).val();
+$.ajax({
+url: ‘check_login.php’,
+type: ‘post’,
+data: {username: username, password: password},
+success: function(response){
+if(response == “valid”){
+window.location.href = “dashboard.php”;
+//redirect to dashboard
+}
+Else{
+Alert(“Invalid username or password”);
+}
+}
+});
+});
+});
+</script>
+</head>
+<body>
+<h2>Login</h2>
+<form id=”login-form” method=”post”>
+<label>Username:</label>
+<input type=”text” name=”username” id=”username”><br><br>
+<label>Password:</label>
+<input type=”password” name=”password” id=”password”><br><br>
+<input type=”submit” value=”Login”>
+</form>
+</body>
+</html>
+Php file as check_login.php
+<?php
+// Establish database connection
+$conn = mysqli_connect(‘localhost’, ‘username’, ‘password’, ‘database_name’);
+If (!$conn) {
+ Die(‘Connection failed: ‘ . mysqli_connect_error());
+}
+// Get username and password from AJAX request
+$username = $_POST[‘username’];
+$password = $_POST[‘password’];
+// Query the users table for the entered username and password
+$sql = “SELECT * FROM users WHERE username = ‘$username’ AND password = ‘$password’”;
+$result = mysqli_query($conn, $sql);
+If (mysqli_num_rows($result) > 0) {
+ Echo “valid”;
+} else {
+ Echo “invalid”;
+}
+// Close database connection
+Mysqli_close($conn);
+?>
+Q. 2 ) Build a simple linear regression model for Car Dataset.
+Ans:
+From sklearn.linear_model import LinearRegression
+Mileage = [[10], [20], [30], [40], [50], [60], [70], [80]]
+Price = [24, 19, 17, 13, 10, 7, 5, 2]
+Reg = LinearRegression().fit(mileage, price)
+Print(‘Intercept:’, reg.intercept_)
+Print(‘Coefficient:’, reg.coef_[0])
+New_mileage = [[25], [45], [65]]
+Predicted_price = reg.predict(new_mileage)
+Print(‘Predicted prices:’, predicted_price)
+@Slip-29
+Q. 1) Write a PHP script for the following: Design a form to accept a number from the user.
+Perform the operations and show the results.
+1) Fibonacci Series.
+2) To find sum of the digits of that number.
+(Use the concept of self processing page.)
+Ans:
+<!DOCTYPE html>
+<html>
+<head>
+<title>Number Operations</title>
+</head>
+<body>
+<h1>Number Operations</h1>
+<?php
+// define variables and set to empty values
+$num = $op = “”;
+If ($_SERVER[“REQUEST_METHOD”] == “POST”) {
+$num = test_input($_POST[“num”]);
+$op = test_input($_POST[“op”]);
+// perform operation based on user’s choice
+Switch ($op) {
+Case “fib”:
+$result = fibonacci($num);
+Echo “<p>The Fibonacci series of $num numbers is: $result</p>”;
+Break;
+Case “sum”:
+$result = sumOfDigits($num);
+Echo “<p>The sum of digits in $num is: $result</p>”;
+Break;
+Default:
+Echo “<p>Invalid operation selected</p>”;
+}
+}
+Function test_input($data) {
+$data = trim($data);
+$data = stripslashes($data);
+$data = htmlspecialchars($data);
+Return $data;
+}
+Function fibonacci($num) {
+$first = 0;
+$second = 1;
+$result = “”;
+For ($i = 0; $i < $num; $i++) {
+$result .= $first . “ “;
+$third = $first + $second;
+$first = $second;
+$second = $third;
+}
+Return $result;
+}
+Function sumOfDigits($num) {
+$sum = 0;
+While ($num > 0) {
+$digit = $num % 10;
+$sum += $digit;
+$num = (int)($num / 10);
+}
+Return $sum;
+}
+?>
+<form method=”post” action=”<?php echo htmlspecialchars($_SERVER[“PHP_SELF”]);?>”>
+<label for=”num”>Enter a number:</label>
+<input type=”number” name=”num” id=”num” required>
+<br><br>
+<label for=”op”>Select an operation:</label>
+<select name=”op” id=”op” required>
+<option value=””>--Select--</option>
+<option value=”fib”>Fibonacci Series</option>
+<option value=”sum”>Sum of Digits</option>
+</select>
+<br><br>
+<input type=”submit” value=”Submit”>
+</form>
+</body>
+</html>
+Q. 2 ) Build a logistic regression model for Student Score Dataset.
+Ans:
+# Import necessary libraries
+Import pandas as pd
+From sklearn.linear_model import LogisticRegression
+From sklearn.model_selection import train_test_split
+From sklearn.metrics import accuracy_score
+# Load the dataset
+Data = pd.read_csv(‘student_scores.csv’)
+# Split the data into input and output variables
+X = data.iloc[:, :-1].values
+Y = data.iloc[:, -1].values
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
+# Create the logistic regression model and fit it to the training data
+Classifier = LogisticRegression()
+Classifier.fit(X_train, y_train)
+# Make predictions on the testing set
+Y_pred = classifier.predict(X_test)
+# Evaluate the model’s accuracy
+Accuracy = accuracy_score(y_test, y_pred)
+Print(“Accuracy:”, accuracy)
+@Slip-30
+Q. 1) Create a XML file which gives details of books available in “Bookstore” from following
+Categories.
+1) Yoga
+2) Story
+3) Technical
+And elements in each category are in the following format
+<Book>
+<Book_Title>
+--------------</Book_Title>
+<Book_Author> ---------------</Book_Author>
+<Book_Price>
+--------------</Book_Price>
+</Book>
+Save the file as “Bookcategory.xml”
+ .
+Ans:
+<?xml ve<?xml version=”1.0” encoding=”UTF-8”?>
+<Bookstore>
+ <Yoga>
+ <Book>
+ <Book_Title>Light on Yoga</Book_Title>
+ <Book_Author>B.K.S. Iyengar</Book_Author>
+ <Book_Price>20.99</Book_Price>
+ </Book>
+ <Book>
+ <Book_Title>The Yoga Bible</Book_Title>
+ <Book_Author>Christina Brown</Book_Author>
+ <Book_Price>15.50</Book_Price>
+ </Book>
+ </Yoga>
+ <Story>
+ <Book>
+ <Book_Title>The Alchemist</Book_Title>
+ <Book_Author>Paulo Coelho</Book_Author>
+ <Book_Price>12.99</Book_Price>
+ </Book>
+ <Book>
+ <Book_Title>The Da Vinci Code</Book_Title>
+ <Book_Author>Dan Brown</Book_Author>
+ <Book_Price>14.75</Book_Price>
+ </Book>
+ </Story>
+ <Technical>
+ <Book>
+ <Book_Title>Python for Data Science Handbook</Book_Title>
+ <Book_Author>Jake VanderPlas</Book_Author>
+ <Book_Price>28.99</Book_Price>
+ </Book>
+ <Book>
+ <Book_Title>Cracking the Coding Interview</Book_Title>
+ <Book_Author>Gayle Laakmann McDowell</Book_Author>
+ <Book_Price>23.50</Book_Price>
+ </Book>
+ </Technical>
+</Bookstore>
+Q. 2 ) Create the dataset . transactions = [[‘eggs’, ‘milk’,’bread’], [‘eggs’, ‘apple’], [‘milk’, ‘bread’],
+[‘apple’,
+‘milk’], [‘milk’, ‘apple’, ‘bread’]] .
+Convert the categorical values into numeric format.Apply the apriori algorithm on the above dataset to
+Generate the frequent itemsets and association rules.
+Ans:
+Transactions = [[‘eggs’, ‘milk’, ‘bread’], [‘eggs’, ‘apple’], [‘milk’, ‘bread’], [‘apple’, ‘milk’], [‘milk’, ‘apple’,
+‘bread’]]
+# Create a dictionary to map items to unique numeric values
+Item_to_num = {‘eggs’: 1, ‘milk’: 2, ‘bread’: 3, ‘apple’: 4}
+# Convert the categorical values in the dataset to numeric values
+Numeric_transactions = []
+For transaction in transactions:
+ Numeric_transaction = [item_to_num[item] for item in transaction]
+ Numeric_transactions.append(numeric_transaction)
+Print(numeric_transactions)
+From mlxtend.frequent_patterns import apriori, association_rules
+# Generate frequent itemsets with a minimum support of 0.4
+Frequent_itemsets = apriori(numeric_transactions, min_support=0.4, use_colnames=True)
+# Generate association rules with a minimum confidence of 0.7
+Rules = association_rules(frequent_itemsets, metric=”confidence”, min_threshold=0.7)
+Print(frequent_itemsets)
+Print(rules)
